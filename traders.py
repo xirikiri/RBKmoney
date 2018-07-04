@@ -6,7 +6,7 @@ Traders Class Declaratioin
 
 class Trader:
     def __init__(self):
-        self.profit = 0
+        self.profit = profit
         self.opponent_history = []
 
 class Altruist(Trader):
@@ -71,7 +71,7 @@ def deal(request_1, request_2):
     if (request_1[1] == "scam") and (request_2[1] == "scam"):
         request_1[0].profit += 2
         request_2[0].profit += 2
-    if (request_1[1].action == "scam") and (request_2[1] == "fair"):
+    if (request_1[1] == "scam") and (request_2[1] == "fair"):
         request_1[0].profit += 5
         request_2[0].profit += 1
     if (request_1[1] == "fair") and (request_2[1] == "scam"):
@@ -94,5 +94,4 @@ if __name__ == "__main__":
         Guild.append(Zlopamatny())
         Guild.append(Ushly())
     print(len(Guild))
-    for i in Guild:
-        
+    deal(Guild[0].request(),Guild[1].request())
