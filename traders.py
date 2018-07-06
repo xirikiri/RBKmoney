@@ -14,69 +14,40 @@ def little_random(input):
 Traders Class Declaratioin
 """
 
-class Altruist():
-    def __init__(self):
-        self.strategy = "altruist"
+class Trader():
+    def __init__(self, strategy):
+        self.strategy = strategy
         self.profit = 0
         self.opponent_history = []
     def request(self):
-        return [self, little_random("fair")]
-
-class Kidala():
-    def __init__(self):
-        self.strategy = "kidala"
-        self.profit = 0
-        self.opponent_history = []
-    def request(self):
-        return [self, little_random("scam")]
-
-class Hitrez():
-    def __init__(self):
-        self.strategy = "Hitrez"
-        self.profit = 0
-        self.opponent_history = []
-    def request(self):
-        if len(self.opponent_history) == 0:
+        if self.strategy == "altruist":
             return [self, little_random("fair")]
-        return [self, little_random(self.opponent_history[-1])]
-
-class Nepredskazuemy():
-    def __init__(self):
-        self.strategy = "Nepredskazuemy"
-        self.profit = 0
-        self.opponent_history = []
-    def request(self):
-        return [self, little_random(random.choices(["fair", "scam"], weights=[1,1]).pop())]
-
-class Zlopamatny():
-    def __init__(self):
-        self.strategy = "Zlopamatny"
-        self.profit = 0
-        self.opponent_history = []
-    def request(self):
-        if len(self.opponent_history) == 0:
-            return [self, little_random("fair")]
-        if "scam" in self.opponent_history:
+        if self.strategy == "kidala":
             return [self, little_random("scam")]
-        return [self, little_random("fair")]
-
-class Ushly():
-    def __init__(self):
-        self.strategy = "Ushly"
-        self.profit = 0
-        self.opponent_history = []
-    def request(self):
-        if len(self.opponent_history) == 1:
-            return [self, little_random("scam")]
-        if len(self.opponent_history) < 5:
-            return [self, little_random("fair")]
-        if "scam" in self.opponent_history[0-4]:
-            return [self, little_random("scam")]
-        else:
-            if len(self.opponent_history) == 5:
+        if self.strategy == "Hitrez":
+            if len(self.opponent_history) == 0:
                 return [self, little_random("fair")]
+            return [self, little_random(self.opponent_history[-1])]
+        if self.strategy == "Nepredskazuemy":
+            return [self, little_random(random.choices(["fair", "scam"], weights=[1,1]).pop())]
+        if self.strategy == "Zlopamatny":
+            if len(self.opponent_history) == 0:
+                return [self, little_random("fair")]
+            if "scam" in self.opponent_history:
+                return [self, little_random("scam")]
+            return [self, little_random("fair")]
+        if self.strategy == "Ushly":
+            if len(self.opponent_history) == 1:
+                return [self, little_random("scam")]
+            if len(self.opponent_history) < 5:
+                return [self, little_random("fair")]
+            if "scam" in self.opponent_history[0-4]:
+                return [self, little_random("scam")]
             else:
-                return [self, little_random(self.opponent_history[-1])]
+                if len(self.opponent_history) == 5:
+                    return [self, little_random("fair")]
+                else:
+                    return [self, little_random(self.opponent_history[-1])]
 
 """
 Deal processing
@@ -130,17 +101,17 @@ def evolution(Guild):
             Guild.pop()
         for i in range(12):
             if (Guild[i].strategy == "altruist"):
-                Guild.append(Altruist())
+                Guild.append(Trader("altruist"))
             if (Guild[i].strategy == "kidala"):
-                Guild.append(Kidala())
+                Guild.append(Trader("kidala"))
             if (Guild[i].strategy == "Hitrez"):
-                Guild.append(Hitrez())
+                Guild.append(Trader("Hitrez"))
             if (Guild[i].strategy == "Nepredskazuemy"):
-                Guild.append(Nepredskazuemy())
+                Guild.append(Trader("Nepredskazuemy"))
             if (Guild[i].strategy == "Zlopamatny"):
-                Guild.append(Zlopamatny())
+                Guild.append(Trader("Zlopamatny"))
             if (Guild[i].strategy == "Ushly"):
-                Guild.append(Ushly())
+                Guild.append(Trader("Ushly"))
         for i in Guild:
             i.profit = 0
             temp_strategy_array.append(i.strategy)
@@ -153,12 +124,12 @@ Main function
 if __name__ == "__main__":
     Guild = []
     for i in range(10):
-        Guild.append(Altruist())
-        Guild.append(Kidala())
-        Guild.append(Hitrez())
-        Guild.append(Nepredskazuemy())
-        Guild.append(Zlopamatny())
-        Guild.append(Ushly())
+        Guild.append(Trader("altruist"))
+        Guild.append(Trader("kidala"))
+        Guild.append(Trader("Hitrez"))
+        Guild.append(Trader("Nepredskazuemy"))
+        Guild.append(Trader("Zlopamatny"))
+        Guild.append(Trader("Ushly"))
     result = []
     for i in range(100):
         result.append(evolution(Guild))
