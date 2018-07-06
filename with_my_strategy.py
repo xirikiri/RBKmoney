@@ -1,5 +1,6 @@
 import random
-
+import time
+start_time = time.time()
 """
 5 procentov veroyatnosti oshibitsya
 """
@@ -134,7 +135,8 @@ def bubble_sort(arr):
                 arr[j], arr[j-1] = arr[j-1], arr[j]
 
 
-def evolution(Guild, temp_strategy_array):
+def evolution(Guild):
+    temp_strategy_array = []
     while (len(temp_strategy_array) != 1):
         temp_strategy_array = []
         year_deal(Guild)
@@ -167,17 +169,17 @@ Main function
 """
 
 if __name__ == "__main__":
-    Guild = []
-    temp_strategy_array = []
-    for i in range(10):
-        Guild.append(Altruist())
-        Guild.append(Kidala())
-        Guild.append(Hitrez())
-        Guild.append(Nepredskazuemy())
-        Guild.append(Zlopamatny())
-        Guild.append(Ushly())
-        Guild.append(New())
     result = []
     for i in range(100):
-        result.append(evolution(Guild, temp_strategy_array))
+        Guild = []
+        for i in range(10):
+            Guild.append(Altruist())
+            Guild.append(Kidala())
+            Guild.append(Hitrez())
+            Guild.append(Nepredskazuemy())
+            Guild.append(Zlopamatny())
+            Guild.append(Ushly())
+            Guild.append(New())
+        result.append(evolution(Guild)
     print(result)
+    print("--- %s seconds ---" % (time.time() - start_time))

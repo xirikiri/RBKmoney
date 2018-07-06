@@ -1,4 +1,6 @@
 import random
+import time
+start_time = time.time()
 
 """
 5 procentov veroyatnosti oshibitsya
@@ -122,15 +124,16 @@ Main function
 """
 
 if __name__ == "__main__":
-    Guild = []
-    for i in range(10):
-        Guild.append(Trader("altruist"))
-        Guild.append(Trader("kidala"))
-        Guild.append(Trader("Hitrez"))
-        Guild.append(Trader("Nepredskazuemy"))
-        Guild.append(Trader("Zlopamatny"))
-        Guild.append(Trader("Ushly"))
     result = []
     for i in range(100):
+        Guild = []
+        for i in range(10):
+            Guild.append(Trader("altruist"))
+            Guild.append(Trader("kidala"))
+            Guild.append(Trader("Hitrez"))
+            Guild.append(Trader("Nepredskazuemy"))
+            Guild.append(Trader("Zlopamatny"))
+            Guild.append(Trader("Ushly"))
         result.append(evolution(Guild))
     print(result)
+    print("--- %s seconds ---" % (time.time() - start_time))
