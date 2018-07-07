@@ -118,7 +118,6 @@ def evolution(Guild):
             temp_strategy_array.append(i.strategy)
         temp_strategy_array = list(set(temp_strategy_array))
     result.append(temp_strategy_array.pop())
-    print("hey")
     return
 """
 Main function
@@ -129,7 +128,7 @@ if __name__ == "__main__":
     result = []
     for i in range(100):
         Guild = []
-        for i in range(10):
+        for k in range(10):
             Guild.append(Trader("altruist"))
             Guild.append(Trader("kidala"))
             Guild.append(Trader("Hitrez"))
