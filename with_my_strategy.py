@@ -139,6 +139,7 @@ def bubble_sort(arr):
 def evolution(Guild,return_dict,l):
     temp_strategy_array = []
     while (len(temp_strategy_array) != 1):
+        temp_strategy_array = []
         year_deal(Guild)
         bubble_sort(Guild)
         for i in range(12):
@@ -163,7 +164,6 @@ def evolution(Guild,return_dict,l):
             temp_strategy_array.append(i.strategy)
             temp_strategy_array = list(set(temp_strategy_array))
     return_dict[l] = temp_strategy_array.pop()
-    return
 """
 Main function
 """
@@ -188,6 +188,5 @@ if __name__ == "__main__":
         p.start()
     for t in jobs:
         t.join()
-    print(result)
     print(return_dict.values())
     print("--- %s seconds ---" % (time.time() - start_time))
