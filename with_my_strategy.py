@@ -180,6 +180,6 @@ if __name__ == "__main__":
             Guild.append(Zlopamatny())
             Guild.append(Ushly())
             Guild.append(New())
-        result.append(evolution(Guild)
+        result.append(evolution(Guild))
     print(result)
     print("--- %s seconds ---" % (time.time() - start_time))

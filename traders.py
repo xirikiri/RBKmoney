@@ -1,7 +1,7 @@
 import random
 import time
+import multiprocessing as mp
 start_time = time.time()
-
 """
 5 procentov veroyatnosti oshibitsya
 """
@@ -96,7 +96,6 @@ def bubble_sort(arr):
 def evolution(Guild):
     temp_strategy_array = []
     while (len(temp_strategy_array) != 1):
-        temp_strategy_array = []
         year_deal(Guild)
         bubble_sort(Guild)
         for i in range(12):
@@ -118,12 +117,15 @@ def evolution(Guild):
             i.profit = 0
             temp_strategy_array.append(i.strategy)
         temp_strategy_array = list(set(temp_strategy_array))
-    return temp_strategy_array.pop()
+    result.append(temp_strategy_array.pop())
+    print("hey")
+    return
 """
 Main function
 """
 
 if __name__ == "__main__":
+    jobs = []
     result = []
     for i in range(100):
         Guild = []
@@ -134,6 +136,10 @@ if __name__ == "__main__":
             Guild.append(Trader("Nepredskazuemy"))
             Guild.append(Trader("Zlopamatny"))
             Guild.append(Trader("Ushly"))
-        result.append(evolution(Guild))
+        p = mp.Process(target=evolution, args=(Guild,))
+        jobs.append(p)
+        p.start()
+    for i in jobs:
+        i.join()
     print(result)
     print("--- %s seconds ---" % (time.time() - start_time))
