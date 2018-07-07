@@ -1,5 +1,6 @@
 import random
 import time
+import multiprocessing
 start_time = time.time()
 """
 5 procentov veroyatnosti oshibitsya
@@ -135,10 +136,9 @@ def bubble_sort(arr):
                 arr[j], arr[j-1] = arr[j-1], arr[j]
 
 
-def evolution(Guild):
+def evolution(Guild,return_dict,l):
     temp_strategy_array = []
     while (len(temp_strategy_array) != 1):
-        temp_strategy_array = []
         year_deal(Guild)
         bubble_sort(Guild)
         for i in range(12):
@@ -158,28 +158,36 @@ def evolution(Guild):
                 Guild.append(Ushly())
             if (Guild[i].strategy == "new"):
                 Guild.append(New())
-
         for i in Guild:
             i.profit = 0
             temp_strategy_array.append(i.strategy)
-        temp_strategy_array = list(set(temp_strategy_array))
-    return temp_strategy_array.pop()
+            temp_strategy_array = list(set(temp_strategy_array))
+    return_dict[l] = temp_strategy_array.pop()
+    return
 """
 Main function
 """
 
 if __name__ == "__main__":
-    result = []
+    jobs = []
+    manager = multiprocessing.Manager()
+    return_dict = manager.dict()
+    Guilds = []
     for i in range(100):
-        Guild = []
-        for i in range(10):
-            Guild.append(Altruist())
-            Guild.append(Kidala())
-            Guild.append(Hitrez())
-            Guild.append(Nepredskazuemy())
-            Guild.append(Zlopamatny())
-            Guild.append(Ushly())
-            Guild.append(New())
-        result.append(evolution(Guild))
+        Guilds.append([])
+        for k in range(10):
+            Guilds[i].append(Altruist())
+            Guilds[i].append(Kidala())
+            Guilds[i].append(Hitrez())
+            Guilds[i].append(Nepredskazuemy())
+            Guilds[i].append(Zlopamatny())
+            Guilds[i].append(Ushly())
+            Guilds[i].append(New())
+        p = multiprocessing.Process(target=evolution, args=(Guilds[i],return_dict,i,))
+        jobs.append(p)
+        p.start()
+    for t in jobs:
+        t.join()
     print(result)
+    print(return_dict.values())
     print("--- %s seconds ---" % (time.time() - start_time))

@@ -1,6 +1,6 @@
 import random
 import time
-import multiprocessing as mp
+import multiprocessing
 start_time = time.time()
 """
 5 procentov veroyatnosti oshibitsya
@@ -93,9 +93,10 @@ def bubble_sort(arr):
                 arr[j], arr[j-1] = arr[j-1], arr[j]
 
 
-def evolution(Guild):
+def evolution(Guild,return_dict,l):
     temp_strategy_array = []
     while (len(temp_strategy_array) != 1):
+        temp_strategy_array = []
         year_deal(Guild)
         bubble_sort(Guild)
         for i in range(12):
@@ -116,29 +117,31 @@ def evolution(Guild):
         for i in Guild:
             i.profit = 0
             temp_strategy_array.append(i.strategy)
-        temp_strategy_array = list(set(temp_strategy_array))
-    result.append(temp_strategy_array.pop())
-    return
+            temp_strategy_array = list(set(temp_strategy_array))
+    return_dict[l] = temp_strategy_array.pop()
+
 """
 Main function
 """
 
 if __name__ == "__main__":
     jobs = []
-    result = []
+    manager = multiprocessing.Manager()
+    return_dict = manager.dict()
+    Guilds = []
     for i in range(100):
-        Guild = []
+        Guilds.append([])
         for k in range(10):
-            Guild.append(Trader("altruist"))
-            Guild.append(Trader("kidala"))
-            Guild.append(Trader("Hitrez"))
-            Guild.append(Trader("Nepredskazuemy"))
-            Guild.append(Trader("Zlopamatny"))
-            Guild.append(Trader("Ushly"))
-        p = mp.Process(target=evolution, args=(Guild,))
+            Guilds[i].append(Trader("altruist"))
+            Guilds[i].append(Trader("kidala"))
+            Guilds[i].append(Trader("Hitrez"))
+            Guilds[i].append(Trader("Nepredskazuemy"))
+            Guilds[i].append(Trader("Zlopamatny"))
+            Guilds[i].append(Trader("Ushly"))
+        p = multiprocessing.Process(target=evolution, args=(Guilds[i],return_dict,i,))
         jobs.append(p)
         p.start()
-    for i in jobs:
-        i.join()
-    print(result)
+    for t in jobs:
+        t.join()
+    print(return_dict.values())
     print("--- %s seconds ---" % (time.time() - start_time))
